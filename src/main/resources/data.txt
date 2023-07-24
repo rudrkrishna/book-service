@@ -1,0 +1,34 @@
+//Add Books
+
+{
+    "bookName":"Organic Chemistry",
+    "authorName": "Bohr",
+    "hireDate": "2023-07-24",
+    "bookDescription": "Book on Chemistry",
+    "categoryId": 1
+}
+
+{
+    "bookName":"Semiconductor Physics",
+    "authorName": "John",
+    "hireDate": "2023-07-24",
+    "bookDescription": "Book on Science",
+    "categoryId": 1
+}
+
+{
+    "bookName":"Indian Polity",
+    "authorName": "Laxmi Kanth",
+    "hireDate": "2023-07-24",
+    "bookDescription": "Book on Polity",
+    "categoryId": 3
+}
+
+
+{
+    "bookName":"Elemental Chemistry",
+    "authorName": "Oppenheimer",
+    "hireDate": "2023-07-24",
+    "bookDescription": "Book on Elemental Chemistry",
+    "categoryId": 2
+}

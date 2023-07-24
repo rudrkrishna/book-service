@@ -1,6 +1,7 @@
 package com.example.bookservice.controller;
 
 import com.example.bookservice.dto.BookResponse;
+import com.example.bookservice.dto.CategoryWiseBooks;
 import com.example.bookservice.entity.Book;
 import com.example.bookservice.service.BookService;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/books")
@@ -22,5 +25,15 @@ public class BookController {
     @GetMapping("/get-book")
     public ResponseEntity<BookResponse> getBook(@RequestParam Long id){
         return new ResponseEntity<>(bookService.getBook(id), HttpStatus.OK);
+    }
+    @GetMapping("/fetch-books")
+    public ResponseEntity<List<Book>> fetchBooks(){
+
+        return new ResponseEntity<List<Book>>(bookService.getAllBooks(), HttpStatus.OK);
+
+    }
+    @GetMapping("/category-wise-books")
+    public ResponseEntity<List<CategoryWiseBooks>> categoryWiseBooks(){
+        return new ResponseEntity<List<CategoryWiseBooks>>(bookService.fetchCategoryWiseBooks(), HttpStatus.OK);
     }
 }
