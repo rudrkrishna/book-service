@@ -15,6 +15,9 @@ import org.springframework.http.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -50,35 +53,37 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public List<CategoryWiseBooks> fetchCategoryWiseBooks() {
+    public LinkedHashMap<String, List<Book>> fetchCategoryWiseBooks() {
 
         List<Book> books= getAllBooks();
 
-        List<CategoryWiseBooks> cBooks= null;
+        List<CategoryWiseBooks> cBooks= new LinkedList<>();
+
+        LinkedHashMap<String, List<Book>> categoryBooks= new LinkedHashMap<>();
 
         try {
             for (Book book : books) {
-                System.out.println("Inside For loop");
                 HttpHeaders headers = new HttpHeaders();
                 HttpEntity<String> entity = new HttpEntity<String>(headers);
                 ResponseEntity<Category> response = restTemplate.exchange(new URI("http://CATEGORY-SERVICE/category/get-category?id=" + book.getCategoryId()),
                         HttpMethod.GET, entity, Category.class);
-                System.out.println(response.getBody());
-                CategoryWiseBooks cBook = new CategoryWiseBooks();
-                cBook.setCategoryId(book.getCategoryId());
-                cBook.setCategoryName(response.getBody().getCategoryName());
-                cBook.setBooks(bookRepository.findByCategoryId(book.getCategoryId()));
-                cBooks.add(cBook);
+                String categoryName=response.getBody().getCategoryName();
+                if(categoryBooks.containsKey(categoryName)){
+                    List<Book> bookList=categoryBooks.get(categoryName);
+                    bookList.add(book);
+                    categoryBooks.replace(categoryName, bookList);
+                }else{
+                    List<Book> bookList=new ArrayList<>();
+                    bookList.add(book);
+                    categoryBooks.put(categoryName,bookList);
+                }
             }
         }
         catch(Exception e){
                 System.out.println("Exception Occured");
             }
 
-        return cBooks;
-
-
-
+        return categoryBooks;
 
     }
 }

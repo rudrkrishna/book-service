@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class BookController {
 
     }
     @GetMapping("/category-wise-books")
-    public ResponseEntity<List<CategoryWiseBooks>> categoryWiseBooks(){
-        return new ResponseEntity<List<CategoryWiseBooks>>(bookService.fetchCategoryWiseBooks(), HttpStatus.OK);
+    public ResponseEntity<LinkedHashMap<String, List<Book>>> categoryWiseBooks(){
+        return new ResponseEntity<LinkedHashMap<String, List<Book>>>(bookService.fetchCategoryWiseBooks(), HttpStatus.OK);
     }
 }
